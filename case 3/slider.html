@@ -1,0 +1,118 @@
+﻿<!DOCTYPE html>
+	<head>
+		<title>Слайдер</title>
+    <style>
+      #frameslide {
+        position: relative;    /*позиция  */
+        margin: 100px auto;   
+        padding: 10px;
+        width: 900px;
+        height: 550px;
+        background-color: rgba(18, 219, 255, 0.801);
+        border: 5px solid rgb(12, 8, 241);
+        border-radius: 35px;
+      }
+      #slide {
+        margin: 500px auto;
+        width: 800px;
+        height: 500px;
+        margin-top: 20px;
+        background-color: rgb(221, 235, 159);
+        background-size: cover;
+        border: 2px solid rgb(15, 16, 83);
+        border-radius: 10px;
+      }
+      button {
+        position: absolute;
+        top: 180px;
+        width: 30px;
+        height: 190px;
+        border-radius: 50px;
+        font: 52pt arial,tahoma,sans-serif;
+        text-align: center;
+      }
+      .left {
+        left: 15px;
+      }
+      .right {
+        right: 15px;
+      }
+      .slidecaption {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        width: 720px;
+        height: 37px;
+        background: rgba(33, 139, 238, 0.349);
+        transform: translateX(-50%);
+        z-index: 100;
+        }
+
+      .slidecaption p {
+        position: relative; 
+        bottom: 15px; 
+        font-family: Arial, Helvetica, sans-serif;
+        font-style: italic;
+        font-size: 20px;
+        color: #1a183f;
+        text-align: center;
+      }
+    </style>
+	</head>
+
+	<body>
+		<div id="frameslide">
+      <button class="left" onclick="slider.left();"></button>
+      <div id="slide"></div>
+      <button class="right" onclick="slider.right();"></button>
+      <div class="slidecaption">
+        <p>Изображение 1 из 3</p> 
+      </div>
+    </div> 
+
+		<script>
+    let slider = {
+      mass:['Изображение 1 из 3', 'Изображение 2 из 3', 'Изображение 3 из 3'], 
+      slides:['1.jpg', '2.jpg', '3.jpg'],
+	    frame: 0,
+      i: 0,
+      b: 0,
+      set: function(image) {
+        document.getElementById("slide").style.backgroundImage = "url("+image+")";
+      },
+      par: document.querySelector(".slidecaption p"),
+
+      init: function() {
+        this.set(this.slides[this.frame]);
+      },
+      left: function() {
+        this.frame --; /*номер картинки становится предыдущий*/
+        if(this.frame <= -1) this.frame = this.slides.length - 1;    
+        this.set(this.slides[this.frame]);
+        this.i = this.i - 1;
+        this.b = this.b - 1;
+        if(this.b <= -1) this.b = this.mass.length -1, this.i = this.mass.length -1;
+        this.par.textContent = this.mass[this.i];
+      },
+      
+      right: function() {
+        this.frame ++;     /*номер картинки становится следующий*/
+        if(this.frame >= this.slides.length) this.frame = 0;
+        this.set(this.slides[this.frame]);
+        this.i = this.i + 1;
+        this.b = this.b + 1;
+        if(this.b >= this.mass.length) this.b = 0, this.i = 0;
+        this.par.textContent = this.mass[this.i];
+      },
+    };
+    
+    window.onload = function() {
+      slider.init();
+      slider.par;
+      setInterval (function() {
+        slider.right();
+      },6000);
+    };
+		</script>
+	</body>
+</html>
